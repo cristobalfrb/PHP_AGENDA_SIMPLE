@@ -1,8 +1,7 @@
-
 <?php
 
 
-$valor = (!empty(isset($_GET['q'])) ) ? $_GET['q'] : "";
+$valor = (!empty(isset($_GET['q']))) ? $_GET['q'] : "";
 
 
 ?>
@@ -53,9 +52,11 @@ $valor = (!empty(isset($_GET['q'])) ) ? $_GET['q'] : "";
         <h1 class="page-header text-center">
             Agenda de Contactos personal
             <?php
-                if($valor != ""){
-                    echo "<i>- buscando: $valor</i>";
-                }
+            if ($valor != "") {
+                echo "<i>- buscando: $valor</i>";
+                echo "<a href='./index.php' class='btn btn-primary ms-2 mb-2'><i class='fas fa-sync-alt me-1'></i>Restablecer</a>";
+            }
+
             ?>
         </h1>
         <div class="row mt-4">
@@ -79,52 +80,52 @@ $valor = (!empty(isset($_GET['q'])) ) ? $_GET['q'] : "";
             unset($_SESSION['message']);
         }  // Fin del IF   
         ?>
+        <div class="table-responsive">
+            <table id="tabla_contactos" class="mt-4 table table-bordered table-striped">
+                <thead>
+                    <th>ID</th>
+                    <th>NOMBRE CONTACTO</th>
+                    <th>CELULAR</th>
+                    <th>EMAIL</th>
+                    <th>DIRECCION</th>
+                    <th>ACCIONES</th>
+                </thead>
+                <tbody>
+                    <?php
+                    include_once('./conexion.php');
 
-        <table id="tabla_contactos" class="mt-4 table table-bordered table-striped">
-            <thead>
-                <th>ID</th>
-                <th>NOMBRE CONTACTO</th>
-                <th>CELULAR</th>
-                <th>EMAIL</th>
-                <th>DIRECCION</th>
-                <th>ACCIONES</th>
-            </thead>
-            <tbody>
-                <?php
-                include_once('./conexion.php');
+                    $database = new ConectarBD();
+                    $db = $database->open();
 
-                $database = new ConectarBD();
-                $db = $database->open();
+                    try {
 
-                try {
+                        $sql = ($valor == "") ? "SELECT * FROM personas" : "SELECT * FROM personas WHERE nombre COLLATE UTF8_GENERAL_CI LIKE '%$valor%'";
 
-                    $sql = ($valor == "") ? "SELECT * FROM personas" : "SELECT * FROM personas WHERE nombre COLLATE UTF8_GENERAL_CI LIKE '%$valor%'";
-                    
-                    foreach ($db->query($sql) as $row) {
-                ?>
-                        <tr>
-                            <td><?php echo $row['id'] ?></td>
-                            <td><?php echo $row['nombre'] ?></td>
-                            <td><?php echo $row['telefono'] ?></td>
-                            <td><?php echo $row['correo'] ?></td>
-                            <td><?php echo $row['direccion'] ?></td>
-                            <td nowrap>
-                                <button type="button" id="edit:<?php echo $row['id']; ?>" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addModal">
-                                    <span class="fa fa-edit me-1"></span>Editar
-                                </button>
-                                <a href="./eliminar.php?id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm"><span class="fa fa-trash me-1"></span>Eliminar</a>
-                            </td>
-                        </tr>
-                <?php
+                        foreach ($db->query($sql) as $row) {
+                    ?>
+                            <tr>
+                                <td><?php echo $row['id'] ?></td>
+                                <td><?php echo $row['nombre'] ?></td>
+                                <td><?php echo $row['telefono'] ?></td>
+                                <td><?php echo $row['correo'] ?></td>
+                                <td><?php echo $row['direccion'] ?></td>
+                                <td nowrap>
+                                    <button type="button" id="edit:<?php echo $row['id']; ?>" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addModal">
+                                        <span class="fa fa-edit me-1"></span>Editar
+                                    </button>
+                                    <a href="./eliminar.php?id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm"><span class="fa fa-trash me-1"></span>Eliminar</a>
+                                </td>
+                            </tr>
+                    <?php
+                        }
+                    } catch (PDOException $e) {
+                        echo "Existe problema en la conexion: " . $e->getMessage();
                     }
-                } catch (PDOException $e) {
-                    echo "Existe problema en la conexion: " . $e->getMessage();
-                }
-                $database->close();
-                ?>
-            </tbody>
-        </table>
-
+                    $database->close();
+                    ?>
+                </tbody>
+            </table>
+        </div>
 
     </div>
 
