@@ -10,19 +10,21 @@
                 <div class="modal-body">
                     <div class="container-fluid">
 
+                        <input type="hidden" id="idHidden" name="id" value="">
+
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre</label>
                             <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Nombre">
                         </div>
 
                         <div class="mb-3">
-                            <label for="celular" class="form-label">Celular</label>
-                            <input type="text" name="celular" id="celular" class="form-control" placeholder="Celular">
+                            <label for="telefono" class="form-label">Telefono</label>
+                            <input type="tel" name="telefono" id="telefono" class="form-control" placeholder="Telefono">
                         </div>
 
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="text" name="email" id="email" class="form-control" placeholder="Email">
+                            <input type="email" name="email" id="email" class="form-control" placeholder="Email">
                         </div>
 
                         <div class="mb-3">
@@ -34,7 +36,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" name="agregar" id="agregar" class="btn btn-primary">Aceptar</button>
+                    <button type="submit" name="agregar" id="btnAgregar" class="btn btn-primary">Aceptar</button>
                 </div>
             </form>
         </div>
